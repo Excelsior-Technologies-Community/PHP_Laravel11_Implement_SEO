@@ -1,4 +1,4 @@
-# 🚀 Laravel 11 Product CRUD With SEO + OG Meta, Multiple Images & Blade Layouts  
+# 🚀 Laravel 11 Product CRUD With SEO + OG Meta  & Blade Layouts  
 A modern, clean and production-ready CRUD system built using **Laravel 11**, **Blade Templates**, **Bootstrap 5**, and **SEO + OG Meta Features**.
 
 This CRUD supports:
