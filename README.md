@@ -1,66 +1,261 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# PHP_Laravel11_Implement_SEO
+A modern, clean and production-ready CRUD system built using **Laravel 11**, **Blade Templates**, **Bootstrap 5**, and **SEO + OG Meta Features**.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This CRUD supports:
 
-## About Laravel
+- Product creation  
+- Image uploads (Main, SEO, OG)  
+- SEO meta tags  
+- Open Graph meta tags  
+- Pagination  
+- Dynamic layout system  
+- Full create/read/update/delete workflow  
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+#  Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-  Full Product CRUD (Create, Read, Update, Delete)  
+-  Image Upload (Main + SEO + OG Images)  
+-  SEO Meta Support (Title, Desc, Keywords, Canonical)  
+-  Open Graph Meta (Title, Desc, Image)  
+-  Clean Blade Layout Architecture  
+-  Bootstrap 5 UI  
+-  Modular Views (index, create, edit, show)  
+-  Pagination Enabled  
+-  Fully Extensible Controller Logic  
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#  Project Folder Structure
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```
+app/
+├── Http/Controllers/
+│   ├── Controller.php
+│   └── ProductController.php
+├── Models/
+│   └── Product.php
+│
+resources/
+├── views/products/
+│   ├── layout.blade.php
+│   ├── index.blade.php
+│   ├── create.blade.php
+│   ├── edit.blade.php
+│   └── show.blade.php
+│
+database/
+├── migrations/
+│   └── create_products_table.php
+│
+public/
+└── images/   # Product, SEO & OG images stored here
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+routes/
+└── web.php
+```
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+#  Table of Contents
 
-### Premium Partners
+- [Features](#-features)  
+- [Project Folder Structure](#-project-folder-structure)  
+- [Installation](#-installation)  
+- [Environment Setup](#-environment-setup)  
+- [Migration](#-migration)  
+- [Routes](#-routes)  
+- [Controller](#-controller)  
+- [Model](#-model)  
+- [Blade Views](#-blade-views)  
+- [Run Application](#-run-application)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+#  Installation
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Install Laravel 11:
 
-## Code of Conduct
+```bash
+composer create-project laravel/laravel blog "11.*"
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+#  Environment Setup
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Update `.env`:
 
-## License
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+#  Migration
+
+Create migration:
+
+```bash
+php artisan make:migration create_products_table --create=products
+```
+
+Your migration includes:
+
+- product_name  
+- price, size, color  
+- image, seo_meta_image, og_meta_image  
+- SEO meta tags  
+- OG meta tags  
+- status  
+- timestamps  
+
+Run migration:
+
+```bash
+php artisan migrate
+```
+
+---
+
+#  Routes
+
+```php
+use App\Http\Controllers\ProductController;
+
+Route::get('/', fn() => view('welcome'));
+
+Route::get('/products', [ProductController::class,'index'])->name('products.index');
+Route::get('/products/create', [ProductController::class,'create'])->name('products.create');
+Route::post('/products/store', [ProductController::class,'store'])->name('products.store');
+Route::get('/products/edit/{id}', [ProductController::class,'edit'])->name('products.edit');
+Route::put('/products/update/{id}', [ProductController::class,'update'])->name('products.update');
+Route::delete('/products/delete/{id}', [ProductController::class,'destroy'])->name('products.destroy');
+Route::get('/products/show/{id}', [ProductController::class,'show'])->name('products.show');
+```
+
+---
+
+#  Controller
+
+A complete Product CRUD controller including:
+
+- Validation  
+- Image uploads  
+- SEO + OG image handling  
+- File replacement on update  
+- File deletion on destroy  
+- Pagination  
+- Show, Edit, Delete logic  
+
+**Example method (index):**
+
+```php
+public function index()
+{
+    $products = Product::latest()->paginate(10);
+    return view('products.index', compact('products'));
+}
+```
+
+(Full controller already exists inside your project.)
+
+---
+
+#  Model
+
+```php
+class Product extends Model
+{
+    protected $fillable = [
+        'product_name','image','price','size','color','description',
+        'seo_meta_title','seo_meta_description','seo_meta_key',
+        'seo_meta_image','seo_canonical',
+        'og_meta_title','og_meta_description','og_meta_key','og_meta_image',
+        'status','created_by','updated_by'
+    ];
+
+    protected $casts = [
+        'price' => 'decimal:2',
+        'status' => 'boolean',
+    ];
+}
+```
+
+---
+
+#  Blade Views
+
+Your CRUD uses a **shared master layout**:
+
+```
+products/layout.blade.php
+```
+
+Child views:
+
+- `index.blade.php` → Product table + pagination  
+- `create.blade.php` → Create form + image previews  
+- `edit.blade.php` → Update form + old images + previews  
+- `show.blade.php` → SEO + OG meta injection + product details  
+
+Each view uses:
+
+✔ Bootstrap UI  
+✔ Clean form groups  
+✔ Error handling  
+✔ Image preview scripts  
+
+---
+
+#  Run Application
+
+```bash
+php artisan serve
+```
+
+Visit:
+
+```
+http://localhost:8000/products
+```
+
+---
+
+#  DONE!
+
+Your **Laravel 11 Product CRUD System** is now fully ready with:
+
+- SEO Meta  
+- OG Meta  
+- Multiple Image Upload  
+- Laravel Validation  
+- Blade Layout Architecture  
+- Full CRUD Functionality
+- 
+
+
+INDEX PAGE:-
+
+<img width="975" height="232" alt="image" src="https://github.com/user-attachments/assets/462ff460-4ea1-4b1e-9b39-50ab578d429f" />
+
+CREATE PAGE:-
+
+<img width="975" height="805" alt="image" src="https://github.com/user-attachments/assets/703aac53-932e-4c39-a2dc-0f2c9796dc93" />
+
+EDIT PAGE:-
+
+<img width="938" height="975" alt="image" src="https://github.com/user-attachments/assets/57a6406e-678a-4882-9216-8f7b4c345cf9" />
+
+SEO & OG DATA SHOW PAGE:-
+
+<img width="975" height="800" alt="image" src="https://github.com/user-attachments/assets/6efdc7a3-e2e4-491b-8226-4af720441f81" />
+
+
+
