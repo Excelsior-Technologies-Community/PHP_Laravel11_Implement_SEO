@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
 
@@ -14,13 +15,19 @@
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
     <style>
-        body { background: #f8f9fa; }
-        .navbar { margin-bottom: 20px; }
+        body {
+            background: #f8f9fa;
+        }
+
+        .navbar {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
+
 <body>
 
     <!-- Navigation Bar -->
@@ -41,6 +48,11 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('categories.index') }}" class="nav-link">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('seo.dashboard') }}" class="nav-link">
+                        SEO Dashboard
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('products.import') }}" class="nav-link">Import</a>

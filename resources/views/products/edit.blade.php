@@ -4,7 +4,7 @@
     <h2>Edit Product</h2>
 
     <form action="{{ route('products.update', $product) }}"
-          method="POST" enctype="multipart/form-data">
+        method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -22,9 +22,9 @@
                 <div id="fbPreview" class="border p-2" style="max-width:400px;">
                     <div id="pvFbImage" class="bg-light text-center mb-2" style="height:150px; line-height:150px; overflow:hidden;">
                         @if($product->og_meta_image)
-                            <img src="{{ asset('images/' . $product->og_meta_image) }}" style="max-height:150px; max-width:100%;">
+                        <img src="{{ asset('images/' . $product->og_meta_image) }}" style="max-height:150px; max-width:100%;">
                         @else
-                            No image
+                        No image
                         @endif
                     </div>
                     <div id="pvFbTitle" class="fw-bold">{{ $product->og_meta_title ?: $product->product_name }}</div>
@@ -37,7 +37,7 @@
             <div class="col-md-6 mb-3">
                 <label>Product Name *</label>
                 <input type="text" name="product_name" id="product_name"
-                       value="{{ $product->product_name }}" class="form-control" required>
+                    value="{{ $product->product_name }}" class="form-control" required>
             </div>
             <div class="col-md-6 mb-3">
                 <label>SEO Slug (auto)</label>
@@ -52,9 +52,9 @@
                 <select name="category_id" class="form-control">
                     <option value="">Select Category</option>
                     @foreach($categories as $cat)
-                        <option value="{{ $cat->id }}" {{ $product->category_id == $cat->id ? 'selected' : '' }}>
-                            {{ $cat->name }}
-                        </option>
+                    <option value="{{ $cat->id }}" {{ $product->category_id == $cat->id ? 'selected' : '' }}>
+                        {{ $cat->name }}
+                    </option>
                     @endforeach
                 </select>
             </div>
@@ -78,7 +78,7 @@
             <div class="col-md-12 mb-2">
                 <label>Current Image:</label><br>
                 @if($product->image)
-                    <img src="{{ asset('images/' . $product->image) }}" width="100">
+                <img src="{{ asset('images/' . $product->image) }}" width="100">
                 @endif
             </div>
             <div class="col-md-12 mb-3">
@@ -95,16 +95,43 @@
             </div>
             <div class="col-md-6 mb-3">
                 <label>SEO Keywords</label>
-                <input type="text" name="seo_meta_key" value="{{ $product->seo_meta_key }}" class="form-control">
+                <input type="text"
+                    name="seo_meta_key"
+                    value="{{ $product->seo_meta_key }}"
+                    class="form-control">
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Focus Keyword</label>
+                <input type="text"
+                    name="focus_keyword"
+                    id="focus_keyword"
+                    value="{{ $product->focus_keyword }}"
+                    class="form-control"
+                    placeholder="e.g. red running shoes">
+
+                <small class="text-muted">
+                    Main keyword used for SEO optimization analysis.
+                </small>
             </div>
             <div class="col-md-12 mb-3">
                 <label>SEO Description</label>
                 <textarea name="seo_meta_description" id="seo_meta_description" class="form-control">{{ $product->seo_meta_description }}</textarea>
             </div>
+
+            <div class="col-md-12 mb-3">
+                <div class="alert alert-light border">
+                    <strong>Focus Keyword:</strong>
+                    <span id="focusKeywordPreview">
+                        {{ $product->focus_keyword ?: 'Not specified' }}
+                    </span>
+                </div>
+            </div>
+
             <div class="col-md-6 mb-2">
                 <label>Current SEO Image:</label><br>
                 @if($product->seo_meta_image)
-                    <img src="{{ asset('images/' . $product->seo_meta_image) }}" width="100">
+                <img src="{{ asset('images/' . $product->seo_meta_image) }}" width="100">
                 @endif
             </div>
             <div class="col-md-6 mb-3">
@@ -134,7 +161,7 @@
             <div class="col-md-6 mb-2">
                 <label>Current OG Image:</label><br>
                 @if($product->og_meta_image)
-                    <img src="{{ asset('images/' . $product->og_meta_image) }}" width="100">
+                <img src="{{ asset('images/' . $product->og_meta_image) }}" width="100">
                 @endif
             </div>
             <div class="col-md-6 mb-3">
@@ -159,14 +186,16 @@
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 <script>
-    var quill = new Quill('#editor', { theme: 'snow' });
-    quill.on('text-change', function () {
+    var quill = new Quill('#editor', {
+        theme: 'snow'
+    });
+    quill.on('text-change', function() {
         document.getElementById('description').value = quill.root.innerHTML;
     });
 
     function previewImage(input, id) {
         let file = input.files[0];
-        if (! file) return;
+        if (!file) return;
         let reader = new FileReader();
         reader.onload = e => {
             document.getElementById(id).src = e.target.result;
@@ -177,7 +206,7 @@
 
     function ogPreview(input) {
         let file = input.files[0];
-        if (! file) return;
+        if (!file) return;
         let reader = new FileReader();
         reader.onload = e => {
             document.getElementById('ogPreviewImg').src = e.target.result;
@@ -194,28 +223,38 @@
             .replace(/\s+/g, '-');
     }
 
-    document.getElementById('product_name').addEventListener('input', function () {
+    document.getElementById('product_name').addEventListener('input', function() {
         let slug = slugify(this.value);
         document.getElementById('slugPreview').value = slug;
         document.getElementById('pvSlug').textContent = slug;
-        if (! document.getElementById('seo_meta_title').value)
+        if (!document.getElementById('seo_meta_title').value)
             document.getElementById('pvGoogleTitle').textContent = this.value || 'Product Title';
-        if (! document.getElementById('og_meta_title').value)
+        if (!document.getElementById('og_meta_title').value)
             document.getElementById('pvFbTitle').textContent = this.value || 'OG Title';
     });
 
-    document.getElementById('seo_meta_title').addEventListener('input', function () {
+    document.getElementById('seo_meta_title').addEventListener('input', function() {
         document.getElementById('pvGoogleTitle').textContent = this.value || 'Product Title';
     });
-    document.getElementById('seo_meta_description').addEventListener('input', function () {
+    document.getElementById('seo_meta_description').addEventListener('input', function() {
         document.getElementById('pvGoogleDesc').textContent = this.value || 'Product description preview...';
     });
-    document.getElementById('og_meta_title').addEventListener('input', function () {
+    document.getElementById('og_meta_title').addEventListener('input', function() {
         document.getElementById('pvFbTitle').textContent = this.value || 'OG Title';
     });
-    document.getElementById('og_meta_description').addEventListener('input', function () {
+    document.getElementById('og_meta_description').addEventListener('input', function() {
         document.getElementById('pvFbDesc').textContent = this.value || 'OG description preview...';
     });
+    // Focus Keyword live preview
+    const focusKeyword = document.getElementById('focus_keyword');
+    const focusKeywordPreview = document.getElementById('focusKeywordPreview');
+
+    if (focusKeyword && focusKeywordPreview) {
+        focusKeyword.addEventListener('input', function() {
+            focusKeywordPreview.textContent =
+                this.value.trim() || 'Not specified';
+        });
+    }
 </script>
 @endsection
 @endsection

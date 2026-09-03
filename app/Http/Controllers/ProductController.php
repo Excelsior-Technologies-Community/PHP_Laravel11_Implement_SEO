@@ -26,7 +26,7 @@ class ProductController extends Controller
             $q = $request->q;
             $query->where(function ($b) use ($q) {
                 $b->where('product_name', 'like', "%{$q}%")
-                  ->orWhere('description', 'like', "%{$q}%");
+                    ->orWhere('description', 'like', "%{$q}%");
             });
         }
 
@@ -85,6 +85,7 @@ class ProductController extends Controller
             'color'           => 'nullable|regex:/^[A-Za-z\s]+$/',
             'price'           => 'required|numeric',
             'category_id'     => 'nullable|exists:categories,id',
+            'focus_keyword'  => 'nullable|string|max:255',
             'image'           => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'seo_meta_image'  => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'og_meta_image'   => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
@@ -107,6 +108,7 @@ class ProductController extends Controller
             'seo_meta_title'       => $request->seo_meta_title,
             'seo_meta_description' => $request->seo_meta_description,
             'seo_meta_key'         => $request->seo_meta_key,
+            'focus_keyword' => $request->focus_keyword,
             'seo_meta_image'       => $seoImage,
             'seo_canonical'        => $request->seo_canonical,
 
@@ -155,6 +157,7 @@ class ProductController extends Controller
             'color'           => 'nullable|regex:/^[A-Za-z\s]+$/',
             'price'           => 'required|numeric',
             'category_id'     => 'nullable|exists:categories,id',
+            'focus_keyword'   => 'nullable|string|max:255',
             'image'           => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'seo_meta_image'  => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'og_meta_image'   => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
@@ -177,6 +180,7 @@ class ProductController extends Controller
             'seo_meta_title'       => $request->seo_meta_title,
             'seo_meta_description' => $request->seo_meta_description,
             'seo_meta_key'         => $request->seo_meta_key,
+            'focus_keyword'        => $request->focus_keyword,
             'seo_meta_image'       => $seoImage,
             'seo_canonical'        => $request->seo_canonical,
 
@@ -266,10 +270,24 @@ class ProductController extends Controller
         $products = Product::withTrashed()->with('category', 'tags')->get();
 
         $columns = [
-            'id', 'product_name', 'slug', 'price', 'size', 'color',
-            'description', 'category', 'tags', 'status',
-            'seo_meta_title', 'seo_meta_description', 'seo_meta_key', 'seo_canonical',
-            'og_meta_title', 'og_meta_description', 'og_meta_key',
+            'id',
+            'product_name',
+            'slug',
+            'price',
+            'size',
+            'color',
+            'description',
+            'category',
+            'tags',
+            'status',
+            'focus_keyword',
+            'seo_meta_title',
+            'seo_meta_description',
+            'seo_meta_key',
+            'seo_canonical',
+            'og_meta_title',
+            'og_meta_description',
+            'og_meta_key',
         ];
 
         $output = fopen('php://temp', 'r+');
@@ -287,6 +305,7 @@ class ProductController extends Controller
                 $p->category?->name,
                 $p->tags->pluck('name')->implode(', '),
                 $p->status ? 'active' : 'inactive',
+                $p->focus_keyword,
                 $p->seo_meta_title,
                 $p->seo_meta_description,
                 $p->seo_meta_key,
@@ -345,6 +364,7 @@ class ProductController extends Controller
                 'size'         => $data['size'] ?? null,
                 'color'        => $data['color'] ?? null,
                 'description'  => $data['description'] ?? null,
+                'focus_keyword' => $data['focus_keyword'] ?? null,
                 'status'       => isset($data['status']) && $data['status'] === 'inactive' ? 0 : 1,
             ]);
 
@@ -392,8 +412,9 @@ class ProductController extends Controller
         $original = $slug;
         $i = 1;
         while (Product::withTrashed()->where('slug', $slug)
-                     ->when($ignoreId, fn ($q) => $q->where('id', '!=', $ignoreId))
-                     ->exists()) {
+            ->when($ignoreId, fn($q) => $q->where('id', '!=', $ignoreId))
+            ->exists()
+        ) {
             $slug = $original . '-' . $i++;
         }
 
