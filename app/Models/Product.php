@@ -44,7 +44,7 @@ class Product extends Model
         'status' => 'boolean',
     ];
 
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }
