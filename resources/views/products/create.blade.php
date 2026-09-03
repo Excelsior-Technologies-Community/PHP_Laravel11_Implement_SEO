@@ -5,7 +5,7 @@
     <h2>Add Product</h2>
 
     <form action="{{ route('products.store') }}"
-          method="POST" enctype="multipart/form-data">
+        method="POST" enctype="multipart/form-data">
         @csrf
 
         <!-- Live Meta Preview -->
@@ -49,7 +49,7 @@
                 <select name="category_id" class="form-control">
                     <option value="">Select Category</option>
                     @foreach($categories as $cat)
-                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                    <option value="{{ $cat->id }}">{{ $cat->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -77,7 +77,7 @@
             <div class="col-md-12 mb-3">
                 <label>Product Image</label>
                 <input type="file" name="image" class="form-control"
-                       onchange="previewImage(this, 'productPreview')">
+                    onchange="previewImage(this, 'productPreview')">
                 <img id="productPreview" style="width:120px; display:none; margin-top:10px;">
             </div>
             <hr>
@@ -90,16 +90,40 @@
             </div>
             <div class="col-md-6 mb-3">
                 <label>SEO Keywords</label>
-                <input type="text" name="seo_meta_key" class="form-control">
+                <input type="text"
+                    name="seo_meta_key"
+                    class="form-control"
+                    placeholder="shoes, footwear, running shoes">
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Focus Keyword</label>
+                <input type="text"
+                    name="focus_keyword"
+                    id="focus_keyword"
+                    class="form-control"
+                    placeholder="e.g. red running shoes">
+
+                <small class="text-muted">
+                    Enter the main keyword you want this product page to rank for.
+                </small>
             </div>
             <div class="col-md-12 mb-3">
                 <label>SEO Description</label>
                 <textarea name="seo_meta_description" id="seo_meta_description" class="form-control"></textarea>
             </div>
+            <div class="col-md-12 mb-3">
+                <div class="alert alert-light border">
+                    <strong>Focus Keyword:</strong>
+                    <span id="focusKeywordPreview">
+                        Not specified
+                    </span>
+                </div>
+            </div>
             <div class="col-md-6 mb-3">
                 <label>SEO Image</label>
                 <input type="file" name="seo_meta_image" class="form-control"
-                       onchange="previewImage(this, 'seoPreview')">
+                    onchange="previewImage(this, 'seoPreview')">
                 <img id="seoPreview" style="width:120px; display:none; margin-top:10px;">
             </div>
             <div class="col-md-6 mb-3">
@@ -125,7 +149,7 @@
             <div class="col-md-6 mb-3">
                 <label>OG Image</label>
                 <input type="file" name="og_meta_image" class="form-control"
-                       onchange="ogPreview(this)">
+                    onchange="ogPreview(this)">
                 <img id="ogPreviewImg" style="width:120px; display:none; margin-top:10px;">
             </div>
             <!-- Status -->
@@ -146,14 +170,16 @@
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 <script>
-    var quill = new Quill('#editor', { theme: 'snow' });
-    quill.on('text-change', function () {
+    var quill = new Quill('#editor', {
+        theme: 'snow'
+    });
+    quill.on('text-change', function() {
         document.getElementById('description').value = quill.root.innerHTML;
     });
 
     function previewImage(input, id) {
         let file = input.files[0];
-        if (! file) return;
+        if (!file) return;
         let reader = new FileReader();
         reader.onload = e => {
             document.getElementById(id).src = e.target.result;
@@ -164,7 +190,7 @@
 
     function ogPreview(input) {
         let file = input.files[0];
-        if (! file) return;
+        if (!file) return;
         let reader = new FileReader();
         reader.onload = e => {
             document.getElementById('ogPreviewImg').src = e.target.result;
@@ -182,28 +208,37 @@
             .replace(/\s+/g, '-');
     }
 
-    document.getElementById('product_name').addEventListener('input', function () {
+    document.getElementById('product_name').addEventListener('input', function() {
         let slug = slugify(this.value);
         document.getElementById('slugPreview').value = slug;
         document.getElementById('pvSlug').textContent = slug;
-        if (! document.getElementById('seo_meta_title').value)
+        if (!document.getElementById('seo_meta_title').value)
             document.getElementById('pvGoogleTitle').textContent = this.value || 'Product Title';
-        if (! document.getElementById('og_meta_title').value)
+        if (!document.getElementById('og_meta_title').value)
             document.getElementById('pvFbTitle').textContent = this.value || 'OG Title';
     });
 
-    document.getElementById('seo_meta_title').addEventListener('input', function () {
+    document.getElementById('seo_meta_title').addEventListener('input', function() {
         document.getElementById('pvGoogleTitle').textContent = this.value || 'Product Title';
     });
-    document.getElementById('seo_meta_description').addEventListener('input', function () {
+    document.getElementById('seo_meta_description').addEventListener('input', function() {
         document.getElementById('pvGoogleDesc').textContent = this.value || 'Product description preview...';
     });
-    document.getElementById('og_meta_title').addEventListener('input', function () {
+    document.getElementById('og_meta_title').addEventListener('input', function() {
         document.getElementById('pvFbTitle').textContent = this.value || 'OG Title';
     });
-    document.getElementById('og_meta_description').addEventListener('input', function () {
+    document.getElementById('og_meta_description').addEventListener('input', function() {
         document.getElementById('pvFbDesc').textContent = this.value || 'OG description preview...';
     });
+    const focusKeyword = document.getElementById('focus_keyword');
+    const focusKeywordPreview = document.getElementById('focusKeywordPreview');
+
+    if (focusKeyword && focusKeywordPreview) {
+        focusKeyword.addEventListener('input', function() {
+            focusKeywordPreview.textContent =
+                this.value.trim() || 'Not specified';
+        });
+    }
 </script>
 @endsection
 @endsection

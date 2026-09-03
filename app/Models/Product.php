@@ -25,6 +25,7 @@ class Product extends Model
         'seo_meta_title',
         'seo_meta_description',
         'seo_meta_key',
+        'focus_keyword',
         'seo_meta_image',
         'seo_canonical',
 

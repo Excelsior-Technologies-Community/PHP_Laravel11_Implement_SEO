@@ -5,10 +5,15 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\RobotsController;
+use App\Http\Controllers\SeoDashboardController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+// SEO Dashboard
+Route::get('/admin/seo-dashboard', [SeoDashboardController::class, 'index'])
+    ->name('seo.dashboard');
 
 // SEO endpoints
 Route::get('/sitemap.xml', [SitemapController::class, 'index']);

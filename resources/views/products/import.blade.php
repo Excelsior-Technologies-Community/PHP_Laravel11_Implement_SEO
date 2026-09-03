@@ -6,7 +6,7 @@
     @if(session('success'))<div class="alert alert-success">{{ session('success') }}</div>@endif
 
     <p>CSV columns (header row required):</p>
-    <pre>product_name, price, size, color, description, status, tags</pre>
+    <pre>product_name, price, size, color, description, focus_keyword, status, tags</pre>
 
     <form action="{{ route('products.import.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
